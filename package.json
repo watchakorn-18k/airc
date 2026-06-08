@@ -1,10 +1,10 @@
 {
-  "name": "airc",
+  "name": "ai-code-arc",
   "version": "1.1.0",
   "description": "AI-powered terminal code reviewer with severity scoring, TUI dashboard, diff review, and CI/CD integration.",
   "main": "dist/index.js",
   "bin": {
-    "airc": "dist/index.js"
+    "ai-code-arc": "dist/index.js"
   },
   "scripts": {
     "build": "tsc",

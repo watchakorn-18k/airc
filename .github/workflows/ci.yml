@@ -52,7 +52,7 @@ jobs:
       - name: Create Homebrew tap
         run: |
           brew tap-new ${{ github.repository }}
-          cp Formula/airc.rb Formulae/airc.rb
+          cp Formula/ai-code-arc.rb Formulae/ai-code-arc.rb
 
-      - name: Install airc formula
-        run: HOMEBREW_NO_AUTO_UPDATE=1 brew install --HEAD --verbose airc
+      - name: Install ai-code-arc formula
+        run: HOMEBREW_NO_AUTO_UPDATE=1 brew install --HEAD --verbose ai-code-arc

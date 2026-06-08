@@ -1,4 +1,4 @@
-# airc — AI Code Reviewer
+# ai-code-arc — AI Code Reviewer
 
 AI-powered terminal code reviewer with severity scoring, TUI dashboard, diff review, and CI/CD integration. Scan your code, get structured feedback with severity levels, scores, and actionable suggestions.
 
@@ -19,21 +19,21 @@ AI-powered terminal code reviewer with severity scoring, TUI dashboard, diff rev
 ### macOS (Homebrew)
 
 ```bash
-brew tap watchakorn-18k/airc
-brew install airc
+brew tap watchakorn-18k/ai-code-arc
+brew install ai-code-arc
 ```
 
 ### npm (any OS)
 
 ```bash
-npm install -g airc
+npm install -g ai-code-arc
 ```
 
 ### From source
 
 ```bash
-git clone https://github.com/watchakorn-18k/airc.git
-cd airc
+git clone https://github.com/watchakorn-18k/ai-code-arc.git
+cd ai-code-arc
 npm install
 npm run build
 npm link
@@ -50,21 +50,21 @@ npm run build
 
 ```bash
 # Review entire src/ directory
-airc src/ \
+ai-code-arc src/ \
   --provider openai \
   --base-url https://api.example.com/v1 \
   --model qwen3.6-35b-a3b \
   -k YOUR_API_KEY
 
 # Interactive TUI dashboard (beautiful!)
-airc src/ --tui \
+ai-code-arc src/ --tui \
   --provider openai \
   --base-url https://api.example.com/v1 \
   --model qwen3.6-35b-a3b \
   -k YOUR_API_KEY
 
 # Single file
-airc src/index.ts \
+ai-code-arc src/index.ts \
   --provider openai \
   --base-url https://api.example.com/v1 \
   --model qwen3.6-35b-a3b \
@@ -78,7 +78,7 @@ airc src/index.ts \
 Beautiful terminal UI with real-time results:
 
 ```bash
-airc src/ --tui \
+ai-code-arc src/ --tui \
   --provider openai \
   --base-url https://api.example.com/v1 \
   --model qwen3.6-35b-a3b \
@@ -97,7 +97,7 @@ Shows:
 Compare two files and review only the changes:
 
 ```bash
-airc \
+ai-code-arc \
   --diff before.ts after.ts \
   --provider openai \
   --base-url https://api.example.com/v1 \
@@ -110,7 +110,7 @@ airc \
 JSON output with exit codes for pipelines:
 
 ```bash
-airc src/ --json --ci \
+ai-code-arc src/ --json --ci \
   --provider openai \
   --base-url https://api.example.com/v1 \
   --model qwen3.6-35b-a3b \
@@ -129,7 +129,7 @@ Exit codes:
 Run with a local Ollama instance — no API key needed:
 
 ```bash
-airc src/ --provider ollama --model qwen3.6-35b-a3b
+ai-code-arc src/ --provider ollama --model qwen3.6-35b-a3b
 ```
 
 Defaults to `http://localhost:11434`.
@@ -169,7 +169,7 @@ OLLAMA_BASE_URL=http://localhost:11434
 For `qwen3.6-35b-a3b` via xxxx gateway:
 
 ```bash
-airc src/ \
+ai-code-arc src/ \
   --provider openai \
   --base-url https://api.example.com/v1 \
   --model qwen3.6-35b-a3b \

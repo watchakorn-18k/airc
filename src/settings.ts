@@ -14,7 +14,7 @@ export interface Settings {
   customPrompt?: string;
 }
 
-const PROJECT_NAME = 'airc';
+const PROJECT_NAME = 'ai-code-arc';
 const SETTINGS_DIR = join(process.env.HOME || '', `.${PROJECT_NAME}`);
 const SETTINGS_FILE = join(SETTINGS_DIR, 'settings.json');
 

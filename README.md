@@ -1,10 +1,10 @@
-# airc — AI Code Reviewer
+# ai-code-arc — AI Code Reviewer
 
 AI-powered terminal code reviewer with severity scoring, TUI dashboard, diff review, and CI/CD integration.
 
-[![npm version](https://img.shields.io/npm/v/airc.svg)](https://www.npmjs.com/package/airc)
-[![npm downloads](https://img.shields.io/npm/dw/airc.svg)](https://www.npmjs.com/package/airc)
-[![License: MIT](https://img.shields.io/npm/l/airc.svg)](https://opensource.org/licenses/MIT)
+[![npm version](https://img.shields.io/npm/v/ai-code-arc.svg)](https://www.npmjs.com/package/ai-code-arc)
+[![npm downloads](https://img.shields.io/npm/dw/ai-code-arc.svg)](https://www.npmjs.com/package/ai-code-arc)
+[![License: MIT](https://img.shields.io/npm/l/ai-code-arc.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.3+-blue.svg)](https://www.typescriptlang.org/)
 
 > Scan your code. Get structured feedback. Ship with confidence.
@@ -13,7 +13,7 @@ AI-powered terminal code reviewer with severity scoring, TUI dashboard, diff rev
 
 ## Name
 
-**airc** = **AI** + **Code** → *AI-powered code review*
+**ai-code-arc** = **AI** + **Code** → *AI-powered code review*
 
 Short, fast, to the point — like the review itself.
 
@@ -28,28 +28,28 @@ Short, fast, to the point — like the review itself.
 - **CI/CD integration** — exit codes, JSON output, severity thresholds
 - **Per-project config** — `.coderc.json` for project-specific settings
 - **Custom rules** — define your own linting rules with regex patterns
-- **Persistent settings** — save provider, model, API key, and custom system prompt in `~/.airc/settings.json`
+- **Persistent settings** — save provider, model, API key, and custom system prompt in `~/.ai-code-arc/settings.json`
 
 ## Install
 
 ### macOS (Homebrew)
 
 ```bash
-brew tap watchakorn-18k/airc
-brew install airc
+brew tap watchakorn-18k/ai-code-arc
+brew install ai-code-arc
 ```
 
 ### npm (any OS)
 
 ```bash
-npm install -g airc
+npm install -g ai-code-arc
 ```
 
 ### From source
 
 ```bash
-git clone https://github.com/watchakorn-18k/airc.git
-cd airc
+git clone https://github.com/watchakorn-18k/ai-code-arc.git
+cd ai-code-arc
 npm install
 npm run build
 npm link
@@ -59,43 +59,43 @@ npm link
 
 ```bash
 # Review current directory
-airc .
+ai-code-arc .
 
 # Review a specific file
-airc src/index.ts
+ai-code-arc src/index.ts
 
 # Review a directory
-airc src/
+ai-code-arc src/
 
 # TUI dashboard (interactive)
-airc . --tui
+ai-code-arc . --tui
 
 # Diff review (compare two files)
-airc --diff old.ts new.ts
+ai-code-arc --diff old.ts new.ts
 
 # CI mode (JSON output, exit codes)
-airc . --json --ci
+ai-code-arc . --json --ci
 ```
 
 ## Setup
 
-Save your API credentials once — they're stored in `~/.airc/settings.json`:
+Save your API credentials once — they're stored in `~/.ai-code-arc/settings.json`:
 
 ```bash
 # Save API key, base URL, model, and provider
-airc --set-api-key "sk-xxx" \
+ai-code-arc --set-api-key "sk-xxx" \
     --set-base-url "https://api.example.com/v1" \
     --set-model "qwen3.6-35b-a3b" \
     --set-provider openai
 
 # Show current settings
-airc --show-settings
+ai-code-arc --show-settings
 
 # Clear the result cache
-airc --clear-cache
+ai-code-arc --clear-cache
 ```
 
-After setup, just run `airc .` — no flags needed.
+After setup, just run `ai-code-arc .` — no flags needed.
 
 ### Settings priority
 
@@ -103,7 +103,7 @@ Settings are resolved in this order (highest priority first):
 
 1. CLI flags (`--key`, `--provider`, `--custom-prompt`, etc.)
 2. Environment variables (`OPENAI_API_KEY`, `OPENAI_BASE_URL`, `OLLAMA_BASE_URL`)
-3. `~/.airc/settings.json` (saved via `--set-*`)
+3. `~/.ai-code-arc/settings.json` (saved via `--set-*`)
 4. `.coderc.json` (per-project config)
 5. Built-in defaults
 
@@ -111,40 +111,40 @@ Settings are resolved in this order (highest priority first):
 
 Inject your own instructions into the AI review process. Control the reviewer's focus, tone, and expertise area.
 
-**Save a custom prompt permanently** (stored in `~/.airc/settings.json`):
+**Save a custom prompt permanently** (stored in `~/.ai-code-arc/settings.json`):
 
 ```bash
-airc --set-custom-prompt "Review like a senior TypeScript engineer. Focus on type safety, error handling, and React best practices. Flag any usage of 'any' type."
+ai-code-arc --set-custom-prompt "Review like a senior TypeScript engineer. Focus on type safety, error handling, and React best practices. Flag any usage of 'any' type."
 ```
 
 **One-shot override** (for this review only, doesn't save):
 
 ```bash
-airc src/ --custom-prompt "Focus only on security issues — SQL injection, XSS, exposed secrets, auth bypass."
+ai-code-arc src/ --custom-prompt "Focus only on security issues — SQL injection, XSS, exposed secrets, auth bypass."
 ```
 
 **Examples of useful custom prompts:**
 
 ```bash
 # Security-focused review
-airc --set-custom-prompt "You are a security auditor. Focus on: SQL injection, XSS, CSRF, exposed secrets, insecure dependencies, auth bypass. Flag every security concern as critical."
+ai-code-arc --set-custom-prompt "You are a security auditor. Focus on: SQL injection, XSS, CSRF, exposed secrets, insecure dependencies, auth bypass. Flag every security concern as critical."
 
 # Performance-focused review
-airc --set-custom-prompt "You are a performance engineer. Focus on: N+1 queries, missing indexes, O(n²) algorithms, unbounded loops, large payloads, missing pagination."
+ai-code-arc --set-custom-prompt "You are a performance engineer. Focus on: N+1 queries, missing indexes, O(n²) algorithms, unbounded loops, large payloads, missing pagination."
 
 # Code quality review
-airc --set-custom-prompt "You are a code quality reviewer. Focus on: SOLID principles, DRY violations, naming conventions, function length (>50 lines), cyclomatic complexity, missing error handling."
+ai-code-arc --set-custom-prompt "You are a code quality reviewer. Focus on: SOLID principles, DRY violations, naming conventions, function length (>50 lines), cyclomatic complexity, missing error handling."
 
 # Team-specific rules
-airc --set-custom-prompt "This team follows these rules: no console.log in production, all functions must have JSDoc, all exports must be typed, no 'any' type allowed, all API calls must use try/catch."
+ai-code-arc --set-custom-prompt "This team follows these rules: no console.log in production, all functions must have JSDoc, all exports must be typed, no 'any' type allowed, all API calls must use try/catch."
 
 # Language-specific
-airc --set-custom-prompt "You are a Python expert. Focus on: PEP 8 compliance, type hints, proper exception handling, list comprehension usage, GIL-aware concurrency."
+ai-code-arc --set-custom-prompt "You are a Python expert. Focus on: PEP 8 compliance, type hints, proper exception handling, list comprehension usage, GIL-aware concurrency."
 ```
 
 **How it works:**
 
-- `--set-custom-prompt` saves the prompt to `~/.airc/settings.json`. Every `airc` run uses it automatically.
+- `--set-custom-prompt` saves the prompt to `~/.ai-code-arc/settings.json`. Every `ai-code-arc` run uses it automatically.
 - `--custom-prompt` overrides the saved prompt for a single run only.
 - CLI `--custom-prompt` takes priority over the saved `--set-custom-prompt`.
 - The custom prompt is injected as the AI's system instruction, so it shapes the entire review.
@@ -154,13 +154,13 @@ airc --set-custom-prompt "You are a Python expert. Focus on: PEP 8 compliance, t
 To remove a saved custom prompt, save an empty string:
 
 ```bash
-airc --set-custom-prompt ""
+ai-code-arc --set-custom-prompt ""
 ```
 
 Then check with:
 
 ```bash
-airc --show-settings
+ai-code-arc --show-settings
 ```
 
 ## Usage
@@ -170,7 +170,7 @@ airc --show-settings
 Beautiful interactive terminal UI with real-time results:
 
 ```bash
-airc . --tui
+ai-code-arc . --tui
 ```
 
 Shows:
@@ -185,7 +185,7 @@ Shows:
 Compare two files and review only the changes:
 
 ```bash
-airc --diff before.ts after.ts
+ai-code-arc --diff before.ts after.ts
 ```
 
 The AI analyzes only the added/removed lines, so you get focused feedback on what actually changed.
@@ -195,7 +195,7 @@ The AI analyzes only the added/removed lines, so you get focused feedback on wha
 JSON output with exit codes for pipelines:
 
 ```bash
-airc . --json --ci
+ai-code-arc . --json --ci
 ```
 
 **Exit codes:**
@@ -211,7 +211,7 @@ airc . --json --ci
 Run with a local Ollama instance — no API key needed:
 
 ```bash
-airc . --provider ollama --model qwen3.6-35b-a3b
+ai-code-arc . --provider ollama --model qwen3.6-35b-a3b
 ```
 
 Defaults to `http://localhost:11434`. Override with `--base-url`.
@@ -221,7 +221,7 @@ Defaults to `http://localhost:11434`. Override with `--base-url`.
 Any OpenAI-compatible endpoint works:
 
 ```bash
-airc . \
+ai-code-arc . \
   --provider openai \
   --base-url https://your-gateway.example.com/v1 \
   --model your-model-name \
@@ -231,7 +231,7 @@ airc . \
 ## CLI Reference
 
 ```
-airc [target] [options]
+ai-code-arc [target] [options]
 ```
 
 **Arguments:**
@@ -310,7 +310,7 @@ Define your own rules with regex patterns (runs before AI review):
 
 ### Custom Prompt (Project-Level)
 
-Set `customPrompt` in `.coderc.json` for project-specific AI instructions. This overrides the global `~/.airc/settings.json` prompt for this project only:
+Set `customPrompt` in `.coderc.json` for project-specific AI instructions. This overrides the global `~/.ai-code-arc/settings.json` prompt for this project only:
 
 ```json
 {
@@ -342,8 +342,8 @@ Uses the Ollama `/api/generate` endpoint. No API key needed.
 # Start Ollama locally
 ollama run qwen3.6-35b-a3b
 
-# Then run airc
-airc . --provider ollama --model qwen3.6-35b-a3b
+# Then run ai-code-arc
+ai-code-arc . --provider ollama --model qwen3.6-35b-a3b
 ```
 
 ## Scoring
@@ -378,7 +378,7 @@ src/
 ├── diff-reviewer.ts  # Diff computation + provider wrapper
 ├── cache.ts          # SHA256-based result cache
 ├── renderer.ts       # Output formatting
-├── settings.ts       # ~/.airc/settings.json
+├── settings.ts       # ~/.ai-code-arc/settings.json
 ├── tui/
 │   ├── index.tsx     # TUI runner
 │   └── dashboard.tsx # Dashboard (Ink + React)
@@ -441,7 +441,7 @@ case 'myprovider':
 
 ### Adding custom rules
 
-Custom rules are defined in `.coderc.json` (project-level) or `~/.airc/settings.json` (global). They run as regex matches against file content before the AI review.
+Custom rules are defined in `.coderc.json` (project-level) or `~/.ai-code-arc/settings.json` (global). They run as regex matches against file content before the AI review.
 
 ### Caching
 
@@ -449,10 +449,10 @@ Results are cached by SHA256 hash of file content in `.cache/`. Files with uncha
 
 ```bash
 # Clear cache
-airc --clear-cache
+ai-code-arc --clear-cache
 
 # Disable cache for a single run
-airc . --no-cache
+ai-code-arc . --no-cache
 ```
 
 ## CI/CD Integration
@@ -462,8 +462,8 @@ airc . --no-cache
 ```yaml
 - name: Code Review
   run: |
-    npm install -g airc
-    airc src/ --json --ci \
+    npm install -g ai-code-arc
+    ai-code-arc src/ --json --ci \
       --provider openai \
       --base-url ${{ secrets.BASE_URL }} \
       --key ${{ secrets.API_KEY }}
@@ -488,7 +488,7 @@ airc . --no-cache
 
 ## Settings File
 
-All settings live in `~/.airc/settings.json`:
+All settings live in `~/.ai-code-arc/settings.json`:
 
 ```json
 {
@@ -508,7 +508,7 @@ All settings live in `~/.airc/settings.json`:
 View current settings:
 
 ```bash
-airc --show-settings
+ai-code-arc --show-settings
 ```
 
 ## License

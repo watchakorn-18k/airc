@@ -1,4 +1,4 @@
-class Airc < Formula
+class AiCodeArc < Formula
   desc "AI-powered terminal code reviewer with severity scoring, TUI dashboard, and CI/CD integration"
   homepage "https://github.com/watchakorn-18k/airc"
   url "https://github.com/watchakorn-18k/airc/archive/refs/tags/v1.1.0.tar.gz"
