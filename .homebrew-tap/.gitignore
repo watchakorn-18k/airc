@@ -1,0 +1,3 @@
+# .npmrc
+//registry.npmjs.org/:_authToken=
+.env
