@@ -3,12 +3,6 @@ name: Release
 on:
   release:
     types: [published]
-  workflow_dispatch:
-    inputs:
-      tag:
-        description: 'Tag to publish (e.g. v1.2.0)'
-        required: true
-        type: string
 
 permissions:
   contents: write
@@ -19,6 +13,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Set version from tag
+        run: |
+          VERSION=${GITHUB_REF#refs/tags/v}
+          echo "Version: $VERSION"
+          npm version "$VERSION" --no-git-tag-version --allow-same-version
 
       - uses: actions/setup-node@v4
         with:
