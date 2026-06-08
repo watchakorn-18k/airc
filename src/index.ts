@@ -28,14 +28,16 @@ program
   .option('--clear-cache', 'Clear the result cache')
   .option('--ignore <paths...>', 'Ignore paths')
   .option('--base-url <url>', 'API base URL (overrides env var)')
+  .option('--custom-prompt <prompt>', 'Custom system prompt for this review (overrides settings)')
   .option('--tui', 'Enable TUI mode (interactive dashboard)')
   .option('--set-provider <type>', 'Save default provider (openai/ollama)')
   .option('--set-model <model>', 'Save default model')
   .option('--set-api-key <key>', 'Save API key')
   .option('--set-base-url <url>', 'Save base URL')
   .option('--set-max-files <n>', 'Save max files to scan')
+  .option('--set-custom-prompt <prompt>', 'Save custom system prompt')
   .option('--show-settings', 'Show current settings')
-  .action(async (target: string, options: { provider: string; model: string; key?: string; maxFiles: string; cache: boolean; diff?: string[]; json: boolean; ci: boolean; clearCache: boolean; ignore?: string[]; baseUrl?: string; tui: boolean; setProvider?: string; setModel?: string; setApiKey?: string; setBaseUrl?: string; setMaxFiles?: string; showSettings: boolean }) => {
+  .action(async (target: string, options: { provider: string; model: string; key?: string; maxFiles: string; cache: boolean; diff?: string[]; json: boolean; ci: boolean; clearCache: boolean; ignore?: string[]; baseUrl?: string; customPrompt?: string; tui: boolean; setProvider?: string; setModel?: string; setApiKey?: string; setBaseUrl?: string; setMaxFiles?: string; setCustomPrompt?: string; showSettings: boolean }) => {
     // Handle settings commands first
     if (options.showSettings) {
       showSettings();
@@ -49,11 +51,15 @@ program
     if (options.setApiKey) settingsPatch.apiKey = options.setApiKey;
     if (options.setBaseUrl) settingsPatch.baseUrl = options.setBaseUrl;
     if (options.setMaxFiles) settingsPatch.maxFiles = parseInt(options.setMaxFiles, 10);
+    if (options.setCustomPrompt) settingsPatch.customPrompt = options.setCustomPrompt;
 
     if (Object.keys(settingsPatch).length > 0) {
       saveSettings(settingsPatch);
       const keys = Object.keys(settingsPatch).map(k => k.replace('set', '').replace(/[A-Z]/, m => m.toLowerCase())).join(', ');
       console.log(chalk.green(`  Settings saved: ${keys}.`));
+      if (options.setCustomPrompt) {
+        console.log(chalk.dim(`  Prompt: ${options.setCustomPrompt.slice(0, 80)}${options.setCustomPrompt.length > 80 ? '...' : ''}`));
+      }
       process.exit(0);
     }
 
@@ -79,6 +85,7 @@ program
       thresholds: rcConfig?.thresholds || settings.thresholds,
       customRules: rcConfig?.customRules || settings.customRules,
       ignorePaths: options.ignore || rcConfig?.ignorePaths || settings.ignorePaths,
+      customPrompt: options.customPrompt || settings.customPrompt,
     };
 
     if (!config.apiKey && config.provider === 'openai') {
@@ -155,7 +162,7 @@ program
 function createProvider(config: ReviewConfig) {
   switch (config.provider) {
     case 'ollama':
-      return new OllamaProvider(config.baseUrl || 'http://localhost:11434', config.model);
+      return new OllamaProvider(config.baseUrl || 'http://localhost:11434', config.model, config.customPrompt);
     case 'openai':
     default:
       if (!config.apiKey) {
@@ -164,7 +171,8 @@ function createProvider(config: ReviewConfig) {
       return new OpenAIPreviewProvider(
         config.apiKey,
         config.model,
-        config.baseUrl
+        config.baseUrl,
+        config.customPrompt
       );
   }
 }

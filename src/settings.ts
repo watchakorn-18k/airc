@@ -11,6 +11,7 @@ export interface Settings {
   thresholds: { maxCritical: number; maxWarning: number };
   ignorePaths: string[];
   customRules: Array<{ name: string; pattern: string; severity: string; message: string }>;
+  customPrompt?: string;
 }
 
 const PROJECT_NAME = 'acr';
@@ -25,6 +26,7 @@ const DEFAULT_SETTINGS: Settings = {
   thresholds: { maxCritical: 0, maxWarning: -1 },
   ignorePaths: ['node_modules', 'dist', 'build', '.git'],
   customRules: [],
+  customPrompt: undefined,
 };
 
 export function loadSettings(): Settings {
@@ -66,5 +68,10 @@ export function showSettings(): void {
   console.log(`    ciMode:     ${s.ciMode}`);
   console.log(`    thresholds: ${JSON.stringify(s.thresholds)}`);
   console.log(`    ignorePaths: ${s.ignorePaths.join(', ') || '(none)'}`);
+  if (s.customPrompt) {
+    console.log(`    customPrompt: ${s.customPrompt.slice(0, 80)}...`);
+  } else {
+    console.log('    customPrompt: (not set)');
+  }
   console.log('');
 }

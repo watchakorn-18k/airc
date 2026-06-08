@@ -26,6 +26,7 @@ export interface ReviewConfig {
   thresholds?: { maxCritical: number; maxWarning: number };
   customRules?: Array<{ name: string; pattern: string; severity: string; message: string }>;
   ignorePaths?: string[];
+  customPrompt?: string;
 }
 
 export const DEFAULT_CONFIG: ReviewConfig = {

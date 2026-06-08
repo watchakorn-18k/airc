@@ -4,10 +4,12 @@ import { Issue } from '../types.js';
 export class OllamaProvider implements CodeReviewProvider {
   private baseUrl: string;
   private model: string;
+  private customPrompt?: string;
 
-  constructor(baseUrl: string, model: string = 'codellama') {
+  constructor(baseUrl: string, model: string = 'codellama', customPrompt?: string) {
     this.baseUrl = baseUrl.replace(/\/$/, '');
     this.model = model;
+    this.customPrompt = customPrompt;
   }
 
   async review(file: string, content: string, language: string): Promise<Issue[]> {
@@ -18,7 +20,9 @@ export class OllamaProvider implements CodeReviewProvider {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: this.model,
-          prompt: REVIEW_PROMPT([{ path: file, content }]),
+          prompt: this.customPrompt
+            ? `${this.customPrompt}\n\n${REVIEW_PROMPT([{ path: file, content }])}`
+            : REVIEW_PROMPT([{ path: file, content }]),
           stream: false,
           options: {
             temperature: 0,

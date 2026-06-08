@@ -17,7 +17,7 @@ Terminal-based AI code reviewer. Scan your code, get structured feedback with se
 - **CI/CD integration** — exit codes, JSON output, severity thresholds
 - **Per-project config** — `.coderc.json` for project-specific settings
 - **Custom rules** — define your own linting rules with regex patterns
-- **Persistent settings** — save provider, model, and API key in `~/.acr/settings.json`
+- **Persistent settings** — save provider, model, API key, and custom system prompt in `~/.acr/settings.json`
 
 ## Install
 
@@ -90,11 +90,67 @@ After setup, just run `acr .` — no flags needed.
 
 Settings are resolved in this order (highest priority first):
 
-1. CLI flags (`--key`, `--provider`, etc.)
+1. CLI flags (`--key`, `--provider`, `--custom-prompt`, etc.)
 2. Environment variables (`OPENAI_API_KEY`, `OPENAI_BASE_URL`, `OLLAMA_BASE_URL`)
 3. `~/.acr/settings.json` (saved via `--set-*`)
 4. `.coderc.json` (per-project config)
 5. Built-in defaults
+
+### Custom System Prompt
+
+Inject your own instructions into the AI review process. Control the reviewer's focus, tone, and expertise area.
+
+**Save a custom prompt permanently** (stored in `~/.acr/settings.json`):
+
+```bash
+acr --set-custom-prompt "Review like a senior TypeScript engineer. Focus on type safety, error handling, and React best practices. Flag any usage of 'any' type."
+```
+
+**One-shot override** (for this review only, doesn't save):
+
+```bash
+acr src/ --custom-prompt "Focus only on security issues — SQL injection, XSS, exposed secrets, auth bypass."
+```
+
+**Examples of useful custom prompts:**
+
+```bash
+# Security-focused review
+acr --set-custom-prompt "You are a security auditor. Focus on: SQL injection, XSS, CSRF, exposed secrets, insecure dependencies, auth bypass. Flag every security concern as critical."
+
+# Performance-focused review
+acr --set-custom-prompt "You are a performance engineer. Focus on: N+1 queries, missing indexes, O(n²) algorithms, unbounded loops, large payloads, missing pagination."
+
+# Code quality review
+acr --set-custom-prompt "You are a code quality reviewer. Focus on: SOLID principles, DRY violations, naming conventions, function length (>50 lines), cyclomatic complexity, missing error handling."
+
+# Team-specific rules
+acr --set-custom-prompt "This team follows these rules: no console.log in production, all functions must have JSDoc, all exports must be typed, no 'any' type allowed, all API calls must use try/catch."
+
+# Language-specific
+acr --set-custom-prompt "You are a Python expert. Focus on: PEP 8 compliance, type hints, proper exception handling, list comprehension usage, GIL-aware concurrency."
+```
+
+**How it works:**
+
+- `--set-custom-prompt` saves the prompt to `~/.acr/settings.json`. Every `acr` run uses it automatically.
+- `--custom-prompt` overrides the saved prompt for a single run only.
+- CLI `--custom-prompt` takes priority over the saved `--set-custom-prompt`.
+- The custom prompt is injected as the AI's system instruction, so it shapes the entire review.
+
+### Clearing custom prompt
+
+To remove a saved custom prompt, save an empty string:
+
+```bash
+acr --set-custom-prompt ""
+```
+
+Then check with:
+
+```bash
+acr --show-settings
+```
 
 ## Usage
 
@@ -194,6 +250,8 @@ acr [target] [options]
 | `--set-api-key <key>` | Save API key | — |
 | `--set-base-url <url>` | Save base URL | — |
 | `--set-max-files <n>` | Save max files to scan | — |
+| `--set-custom-prompt <prompt>` | Save custom system prompt | — |
+| `--custom-prompt <prompt>` | Custom system prompt for this review (overrides settings) | — |
 | `--show-settings` | Show current settings | — |
 
 ## Per-Project Config
@@ -218,7 +276,8 @@ Create `.coderc.json` in your project root:
       "severity": "warning",
       "message": "Remove console statements before commit"
     }
-  ]
+  ],
+  "customPrompt": "Review this React project. Focus on component composition, prop types, and hook dependencies."
 }
 ```
 
@@ -229,7 +288,24 @@ Create `.coderc.json` in your project root:
 
 ### Custom Rules
 
-Define your own rules with regex patterns:
+Define your own rules with regex patterns (runs before AI review):
+
+| Field | Description |
+|---|---|
+| `name` | Rule identifier (slug) |
+| `pattern` | Regex to match against file content |
+| `severity` | `critical`, `warning`, or `info` |
+| `message` | Description shown in output |
+
+### Custom Prompt (Project-Level)
+
+Set `customPrompt` in `.coderc.json` for project-specific AI instructions. This overrides the global `~/.acr/settings.json` prompt for this project only:
+
+```json
+{
+  "customPrompt": "This is a React project. Focus on component composition, prop types, and hook dependencies."
+}
+```
 
 | Field | Description |
 |---|---|
@@ -398,6 +474,31 @@ acr . --no-cache
 | `OPENAI_API_KEY` | OpenAI API key |
 | `OPENAI_BASE_URL` | Custom OpenAI-compatible endpoint |
 | `OLLAMA_BASE_URL` | Ollama API endpoint |
+
+## Settings File
+
+All settings live in `~/.acr/settings.json`:
+
+```json
+{
+  "provider": "openai",
+  "model": "qwen3.6-35b-a3b",
+  "apiKey": "sk-xxx",
+  "baseUrl": "https://xxxxxx/v1",
+  "maxFiles": 50,
+  "ciMode": false,
+  "thresholds": { "maxCritical": 0, "maxWarning": -1 },
+  "ignorePaths": ["node_modules", "dist", "build", ".git"],
+  "customRules": [],
+  "customPrompt": "Review like a senior TypeScript engineer."
+}
+```
+
+View current settings:
+
+```bash
+acr --show-settings
+```
 
 ## License
 

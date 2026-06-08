@@ -5,13 +5,15 @@ import { Issue } from '../types.js';
 export class OpenAIPreviewProvider implements CodeReviewProvider {
   private client: OpenAI;
   private model: string;
+  private customPrompt?: string;
 
-  constructor(apiKey: string, model: string = 'qwen3.6-35b-a3b', baseUrl?: string) {
+  constructor(apiKey: string, model: string = 'qwen3.6-35b-a3b', baseUrl?: string, customPrompt?: string) {
     this.client = new OpenAI({
       apiKey,
       baseURL: baseUrl || undefined,
     });
     this.model = model;
+    this.customPrompt = customPrompt;
   }
 
   async review(file: string, content: string, language: string): Promise<Issue[]> {
@@ -20,7 +22,9 @@ export class OpenAIPreviewProvider implements CodeReviewProvider {
       messages: [
         {
           role: 'system',
-          content: 'You are a code review assistant. Return ONLY valid JSON. No markdown, no explanation.',
+          content: this.customPrompt
+            ? `You are a code review assistant. ${this.customPrompt} Return ONLY valid JSON. No markdown, no explanation.`
+            : 'You are a code review assistant. Return ONLY valid JSON. No markdown, no explanation.',
         },
         {
           role: 'user',
