@@ -15,4 +15,4 @@ jobs:
         uses: dawidd6/action-homebrew-bump-formula@v3
         with:
           token: ${{ secrets.PAT }}
-          formula: acr
+          formula: airc

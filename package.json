@@ -1,10 +1,10 @@
 {
-  "name": "acr",
-  "version": "1.0.0",
-  "description": "Terminal-based AI code reviewer with real-time feedback",
+  "name": "airc",
+  "version": "1.1.0",
+  "description": "AI-powered terminal code reviewer with severity scoring, TUI dashboard, diff review, and CI/CD integration.",
   "main": "dist/index.js",
   "bin": {
-    "acr": "dist/index.js"
+    "airc": "dist/index.js"
   },
   "scripts": {
     "build": "tsc",
@@ -17,9 +17,16 @@
   },
   "keywords": [
     "code-review",
+    "ai-code-review",
     "ai",
+    "code-quality",
+    "security-audit",
     "terminal",
-    "typescript"
+    "cli",
+    "typescript",
+    "code-analysis",
+    "linting",
+    "developer-tools"
   ],
   "author": "",
   "license": "MIT",

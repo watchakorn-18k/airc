@@ -1,10 +1,21 @@
-# ACR — AI Code Reviewer
+# airc — AI Code Reviewer
 
-Terminal-based AI code reviewer. Scan your code, get structured feedback with severity levels, scores, and actionable suggestions.
+AI-powered terminal code reviewer with severity scoring, TUI dashboard, diff review, and CI/CD integration.
 
-![CI](https://github.com/watchakorn-b/acr/actions/workflows/ci.yml/badge.svg)
-![npm](https://img.shields.io/npm/v/acr.svg)
-![license](https://img.shields.io/npm/l/acr.svg)
+[![npm version](https://img.shields.io/npm/v/airc.svg)](https://www.npmjs.com/package/airc)
+[![npm downloads](https://img.shields.io/npm/dw/airc.svg)](https://www.npmjs.com/package/airc)
+[![License: MIT](https://img.shields.io/npm/l/airc.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.3+-blue.svg)](https://www.typescriptlang.org/)
+
+> Scan your code. Get structured feedback. Ship with confidence.
+
+![Demo](https://i.imgur.com/placeholder.png)
+
+## Name
+
+**airc** = **AI** + **Code** → *AI-powered code review*
+
+Short, fast, to the point — like the review itself.
 
 ## Features
 
@@ -17,28 +28,28 @@ Terminal-based AI code reviewer. Scan your code, get structured feedback with se
 - **CI/CD integration** — exit codes, JSON output, severity thresholds
 - **Per-project config** — `.coderc.json` for project-specific settings
 - **Custom rules** — define your own linting rules with regex patterns
-- **Persistent settings** — save provider, model, API key, and custom system prompt in `~/.acr/settings.json`
+- **Persistent settings** — save provider, model, API key, and custom system prompt in `~/.airc/settings.json`
 
 ## Install
 
 ### macOS (Homebrew)
 
 ```bash
-brew tap watchakorn-b/acr
-brew install acr
+brew tap watchakorn-b/airc
+brew install airc
 ```
 
 ### npm (any OS)
 
 ```bash
-npm install -g acr
+npm install -g airc
 ```
 
 ### From source
 
 ```bash
-git clone https://github.com/watchakorn-b/acr.git
-cd acr
+git clone https://github.com/watchakorn-b/airc.git
+cd airc
 npm install
 npm run build
 npm link
@@ -48,43 +59,43 @@ npm link
 
 ```bash
 # Review current directory
-acr .
+airc .
 
 # Review a specific file
-acr src/index.ts
+airc src/index.ts
 
 # Review a directory
-acr src/
+airc src/
 
 # TUI dashboard (interactive)
-acr . --tui
+airc . --tui
 
 # Diff review (compare two files)
-acr --diff old.ts new.ts
+airc --diff old.ts new.ts
 
 # CI mode (JSON output, exit codes)
-acr . --json --ci
+airc . --json --ci
 ```
 
 ## Setup
 
-Save your API credentials once — they're stored in `~/.acr/settings.json`:
+Save your API credentials once — they're stored in `~/.airc/settings.json`:
 
 ```bash
 # Save API key, base URL, model, and provider
-acr --set-api-key "sk-xxx" \
-    --set-base-url "https://gateway.9arm.co/v1" \
+airc --set-api-key "sk-xxx" \
+    --set-base-url "https://api.example.com/v1" \
     --set-model "qwen3.6-35b-a3b" \
     --set-provider openai
 
 # Show current settings
-acr --show-settings
+airc --show-settings
 
 # Clear the result cache
-acr --clear-cache
+airc --clear-cache
 ```
 
-After setup, just run `acr .` — no flags needed.
+After setup, just run `airc .` — no flags needed.
 
 ### Settings priority
 
@@ -92,7 +103,7 @@ Settings are resolved in this order (highest priority first):
 
 1. CLI flags (`--key`, `--provider`, `--custom-prompt`, etc.)
 2. Environment variables (`OPENAI_API_KEY`, `OPENAI_BASE_URL`, `OLLAMA_BASE_URL`)
-3. `~/.acr/settings.json` (saved via `--set-*`)
+3. `~/.airc/settings.json` (saved via `--set-*`)
 4. `.coderc.json` (per-project config)
 5. Built-in defaults
 
@@ -100,40 +111,40 @@ Settings are resolved in this order (highest priority first):
 
 Inject your own instructions into the AI review process. Control the reviewer's focus, tone, and expertise area.
 
-**Save a custom prompt permanently** (stored in `~/.acr/settings.json`):
+**Save a custom prompt permanently** (stored in `~/.airc/settings.json`):
 
 ```bash
-acr --set-custom-prompt "Review like a senior TypeScript engineer. Focus on type safety, error handling, and React best practices. Flag any usage of 'any' type."
+airc --set-custom-prompt "Review like a senior TypeScript engineer. Focus on type safety, error handling, and React best practices. Flag any usage of 'any' type."
 ```
 
 **One-shot override** (for this review only, doesn't save):
 
 ```bash
-acr src/ --custom-prompt "Focus only on security issues — SQL injection, XSS, exposed secrets, auth bypass."
+airc src/ --custom-prompt "Focus only on security issues — SQL injection, XSS, exposed secrets, auth bypass."
 ```
 
 **Examples of useful custom prompts:**
 
 ```bash
 # Security-focused review
-acr --set-custom-prompt "You are a security auditor. Focus on: SQL injection, XSS, CSRF, exposed secrets, insecure dependencies, auth bypass. Flag every security concern as critical."
+airc --set-custom-prompt "You are a security auditor. Focus on: SQL injection, XSS, CSRF, exposed secrets, insecure dependencies, auth bypass. Flag every security concern as critical."
 
 # Performance-focused review
-acr --set-custom-prompt "You are a performance engineer. Focus on: N+1 queries, missing indexes, O(n²) algorithms, unbounded loops, large payloads, missing pagination."
+airc --set-custom-prompt "You are a performance engineer. Focus on: N+1 queries, missing indexes, O(n²) algorithms, unbounded loops, large payloads, missing pagination."
 
 # Code quality review
-acr --set-custom-prompt "You are a code quality reviewer. Focus on: SOLID principles, DRY violations, naming conventions, function length (>50 lines), cyclomatic complexity, missing error handling."
+airc --set-custom-prompt "You are a code quality reviewer. Focus on: SOLID principles, DRY violations, naming conventions, function length (>50 lines), cyclomatic complexity, missing error handling."
 
 # Team-specific rules
-acr --set-custom-prompt "This team follows these rules: no console.log in production, all functions must have JSDoc, all exports must be typed, no 'any' type allowed, all API calls must use try/catch."
+airc --set-custom-prompt "This team follows these rules: no console.log in production, all functions must have JSDoc, all exports must be typed, no 'any' type allowed, all API calls must use try/catch."
 
 # Language-specific
-acr --set-custom-prompt "You are a Python expert. Focus on: PEP 8 compliance, type hints, proper exception handling, list comprehension usage, GIL-aware concurrency."
+airc --set-custom-prompt "You are a Python expert. Focus on: PEP 8 compliance, type hints, proper exception handling, list comprehension usage, GIL-aware concurrency."
 ```
 
 **How it works:**
 
-- `--set-custom-prompt` saves the prompt to `~/.acr/settings.json`. Every `acr` run uses it automatically.
+- `--set-custom-prompt` saves the prompt to `~/.airc/settings.json`. Every `airc` run uses it automatically.
 - `--custom-prompt` overrides the saved prompt for a single run only.
 - CLI `--custom-prompt` takes priority over the saved `--set-custom-prompt`.
 - The custom prompt is injected as the AI's system instruction, so it shapes the entire review.
@@ -143,13 +154,13 @@ acr --set-custom-prompt "You are a Python expert. Focus on: PEP 8 compliance, ty
 To remove a saved custom prompt, save an empty string:
 
 ```bash
-acr --set-custom-prompt ""
+airc --set-custom-prompt ""
 ```
 
 Then check with:
 
 ```bash
-acr --show-settings
+airc --show-settings
 ```
 
 ## Usage
@@ -159,7 +170,7 @@ acr --show-settings
 Beautiful interactive terminal UI with real-time results:
 
 ```bash
-acr . --tui
+airc . --tui
 ```
 
 Shows:
@@ -174,7 +185,7 @@ Shows:
 Compare two files and review only the changes:
 
 ```bash
-acr --diff before.ts after.ts
+airc --diff before.ts after.ts
 ```
 
 The AI analyzes only the added/removed lines, so you get focused feedback on what actually changed.
@@ -184,7 +195,7 @@ The AI analyzes only the added/removed lines, so you get focused feedback on wha
 JSON output with exit codes for pipelines:
 
 ```bash
-acr . --json --ci
+airc . --json --ci
 ```
 
 **Exit codes:**
@@ -200,7 +211,7 @@ acr . --json --ci
 Run with a local Ollama instance — no API key needed:
 
 ```bash
-acr . --provider ollama --model qwen3.6-35b-a3b
+airc . --provider ollama --model qwen3.6-35b-a3b
 ```
 
 Defaults to `http://localhost:11434`. Override with `--base-url`.
@@ -210,7 +221,7 @@ Defaults to `http://localhost:11434`. Override with `--base-url`.
 Any OpenAI-compatible endpoint works:
 
 ```bash
-acr . \
+airc . \
   --provider openai \
   --base-url https://your-gateway.example.com/v1 \
   --model your-model-name \
@@ -220,7 +231,7 @@ acr . \
 ## CLI Reference
 
 ```
-acr [target] [options]
+airc [target] [options]
 ```
 
 **Arguments:**
@@ -299,7 +310,7 @@ Define your own rules with regex patterns (runs before AI review):
 
 ### Custom Prompt (Project-Level)
 
-Set `customPrompt` in `.coderc.json` for project-specific AI instructions. This overrides the global `~/.acr/settings.json` prompt for this project only:
+Set `customPrompt` in `.coderc.json` for project-specific AI instructions. This overrides the global `~/.airc/settings.json` prompt for this project only:
 
 ```json
 {
@@ -320,7 +331,7 @@ Set `customPrompt` in `.coderc.json` for project-specific AI instructions. This 
 
 Uses the OpenAI SDK with a custom base URL. Works with:
 - OpenAI (gpt-4o, gpt-4o-mini, etc.)
-- 9arm gateway (qwen3.6-35b-a3b)
+- xxxx gateway (qwen3.6-35b-a3b)
 - Any OpenAI-compatible API (LiteLLM, vLLM, Ollama API, etc.)
 
 ### Ollama (local)
@@ -331,8 +342,8 @@ Uses the Ollama `/api/generate` endpoint. No API key needed.
 # Start Ollama locally
 ollama run qwen3.6-35b-a3b
 
-# Then run acr
-acr . --provider ollama --model qwen3.6-35b-a3b
+# Then run airc
+airc . --provider ollama --model qwen3.6-35b-a3b
 ```
 
 ## Scoring
@@ -367,7 +378,7 @@ src/
 ├── diff-reviewer.ts  # Diff computation + provider wrapper
 ├── cache.ts          # SHA256-based result cache
 ├── renderer.ts       # Output formatting
-├── settings.ts       # ~/.acr/settings.json
+├── settings.ts       # ~/.airc/settings.json
 ├── tui/
 │   ├── index.tsx     # TUI runner
 │   └── dashboard.tsx # Dashboard (Ink + React)
@@ -430,7 +441,7 @@ case 'myprovider':
 
 ### Adding custom rules
 
-Custom rules are defined in `.coderc.json` (project-level) or `~/.acr/settings.json` (global). They run as regex matches against file content before the AI review.
+Custom rules are defined in `.coderc.json` (project-level) or `~/.airc/settings.json` (global). They run as regex matches against file content before the AI review.
 
 ### Caching
 
@@ -438,10 +449,10 @@ Results are cached by SHA256 hash of file content in `.cache/`. Files with uncha
 
 ```bash
 # Clear cache
-acr --clear-cache
+airc --clear-cache
 
 # Disable cache for a single run
-acr . --no-cache
+airc . --no-cache
 ```
 
 ## CI/CD Integration
@@ -451,8 +462,8 @@ acr . --no-cache
 ```yaml
 - name: Code Review
   run: |
-    npm install -g acr
-    acr src/ --json --ci \
+    npm install -g airc
+    airc src/ --json --ci \
       --provider openai \
       --base-url ${{ secrets.BASE_URL }} \
       --key ${{ secrets.API_KEY }}
@@ -477,7 +488,7 @@ acr . --no-cache
 
 ## Settings File
 
-All settings live in `~/.acr/settings.json`:
+All settings live in `~/.airc/settings.json`:
 
 ```json
 {
@@ -497,7 +508,7 @@ All settings live in `~/.acr/settings.json`:
 View current settings:
 
 ```bash
-acr --show-settings
+airc --show-settings
 ```
 
 ## License

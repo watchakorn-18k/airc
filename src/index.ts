@@ -13,8 +13,8 @@ import { renderHeader, renderFooter, renderReview, renderJsonOutput, getExitCode
 const program = new Command();
 
 program
-  .name('review')
-  .description('AI-powered code reviewer')
+  .name('airc')
+  .description('AI-powered terminal code reviewer with severity scoring, TUI dashboard, and CI/CD integration')
   .version('1.0.0')
   .argument('[target]', 'file or directory to review', '.')
   .option('-p, --provider <type>', 'AI provider: openai or ollama', 'openai')

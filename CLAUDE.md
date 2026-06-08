@@ -1,6 +1,6 @@
-# ACR — AI Code Reviewer
+# airc — AI Code Reviewer
 
-Terminal-based code reviewer powered by AI. Scan code, get structured feedback with severity levels and scores.
+AI-powered terminal code reviewer with severity scoring, TUI dashboard, diff review, and CI/CD integration. Scan your code, get structured feedback with severity levels, scores, and actionable suggestions.
 
 ## Features
 
@@ -19,21 +19,21 @@ Terminal-based code reviewer powered by AI. Scan code, get structured feedback w
 ### macOS (Homebrew)
 
 ```bash
-brew tap watchakorn-b/acr
-brew install acr
+brew tap watchakorn-b/airc
+brew install airc
 ```
 
 ### npm (any OS)
 
 ```bash
-npm install -g acr
+npm install -g airc
 ```
 
 ### From source
 
 ```bash
-git clone https://github.com/watchakorn-b/acr.git
-cd acr
+git clone https://github.com/watchakorn-b/airc.git
+cd airc
 npm install
 npm run build
 npm link
@@ -50,23 +50,23 @@ npm run build
 
 ```bash
 # Review entire src/ directory
-node dist/index.js src/ \
+airc src/ \
   --provider openai \
-  --base-url https://gateway.9arm.co/v1 \
+  --base-url https://api.example.com/v1 \
   --model qwen3.6-35b-a3b \
   -k YOUR_API_KEY
 
 # Interactive TUI dashboard (beautiful!)
-node dist/index.js src/ --tui \
+airc src/ --tui \
   --provider openai \
-  --base-url https://gateway.9arm.co/v1 \
+  --base-url https://api.example.com/v1 \
   --model qwen3.6-35b-a3b \
   -k YOUR_API_KEY
 
 # Single file
-node dist/index.js src/index.ts \
+airc src/index.ts \
   --provider openai \
-  --base-url https://gateway.9arm.co/v1 \
+  --base-url https://api.example.com/v1 \
   --model qwen3.6-35b-a3b \
   -k YOUR_API_KEY
 ```
@@ -78,9 +78,9 @@ node dist/index.js src/index.ts \
 Beautiful terminal UI with real-time results:
 
 ```bash
-node dist/index.js src/ --tui \
+airc src/ --tui \
   --provider openai \
-  --base-url https://gateway.9arm.co/v1 \
+  --base-url https://api.example.com/v1 \
   --model qwen3.6-35b-a3b \
   -k YOUR_API_KEY
 ```
@@ -97,10 +97,10 @@ Shows:
 Compare two files and review only the changes:
 
 ```bash
-node dist/index.js \
+airc \
   --diff before.ts after.ts \
   --provider openai \
-  --base-url https://gateway.9arm.co/v1 \
+  --base-url https://api.example.com/v1 \
   --model qwen3.6-35b-a3b \
   -k YOUR_API_KEY
 ```
@@ -110,9 +110,9 @@ node dist/index.js \
 JSON output with exit codes for pipelines:
 
 ```bash
-node dist/index.js src/ --json --ci \
+airc src/ --json --ci \
   --provider openai \
-  --base-url https://gateway.9arm.co/v1 \
+  --base-url https://api.example.com/v1 \
   --model qwen3.6-35b-a3b \
   -k YOUR_API_KEY
 ```
@@ -129,7 +129,7 @@ Exit codes:
 Run with a local Ollama instance — no API key needed:
 
 ```bash
-node dist/index.js src/ --provider ollama --model qwen3.6-35b-a3b
+airc src/ --provider ollama --model qwen3.6-35b-a3b
 ```
 
 Defaults to `http://localhost:11434`.
@@ -157,21 +157,21 @@ Defaults to `http://localhost:11434`.
 # OpenAI
 OPENAI_API_KEY=sk-...
 
-# OpenAI-compatible endpoints (e.g., 9arm gateway)
-OPENAI_BASE_URL=https://gateway.9arm.co/v1
+# OpenAI-compatible endpoints (e.g., xxxx gateway)
+OPENAI_BASE_URL=https://api.example.com/v1
 
 # Ollama (local)
 OLLAMA_BASE_URL=http://localhost:11434
 ```
 
-## Custom Gateway (9arm)
+## Custom Gateway (xxxx)
 
-For `qwen3.6-35b-a3b` via 9arm gateway:
+For `qwen3.6-35b-a3b` via xxxx gateway:
 
 ```bash
-node dist/index.js src/ \
+airc src/ \
   --provider openai \
-  --base-url https://gateway.9arm.co/v1 \
+  --base-url https://api.example.com/v1 \
   --model qwen3.6-35b-a3b \
   -k YOUR_API_KEY
 ```
