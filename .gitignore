@@ -1,0 +1,9 @@
+node_modules/
+dist/
+.cache/
+.env
+*.log
+.DS_Store
+
+# Homebrew tap (separate repo)
+.homebrew-tap/

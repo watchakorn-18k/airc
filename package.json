@@ -1,0 +1,58 @@
+{
+  "name": "acr",
+  "version": "1.0.0",
+  "description": "Terminal-based AI code reviewer with real-time feedback",
+  "main": "dist/index.js",
+  "bin": {
+    "acr": "dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "tsx src/index.ts",
+    "review": "ts-node src/index.ts",
+    "lint": "eslint src/",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "keywords": [
+    "code-review",
+    "ai",
+    "terminal",
+    "typescript"
+  ],
+  "author": "",
+  "license": "MIT",
+  "type": "module",
+  "dependencies": {
+    "@types/ink": "^0.5.2",
+    "@types/ink-table": "^1.0.7",
+    "chalk": "^5.3.0",
+    "commander": "^12.0.0",
+    "diff": "^7.0.0",
+    "glob": "^10.3.10",
+    "ink": "^7.0.5",
+    "ink-box": "^1.0.0",
+    "ink-divider": "^4.1.1",
+    "ink-gradient": "^4.0.1",
+    "ink-spinner": "^5.0.0",
+    "ink-table": "^3.1.0",
+    "inquirer": "^12.0.0",
+    "openai": "^4.28.0",
+    "ora": "^8.0.1"
+  },
+  "devDependencies": {
+    "@types/diff": "^5.0.9",
+    "@types/glob": "^8.1.0",
+    "@types/ink-box": "^1.0.4",
+    "@types/ink-gradient": "^2.0.4",
+    "@types/ink-spinner": "^3.0.5",
+    "@types/node": "^20.10.0",
+    "@types/react": "^19.2.17",
+    "eslint": "^8.55.0",
+    "ts-node": "^10.9.2",
+    "tsx": "^4.22.4",
+    "typescript": "^5.3.3",
+    "vitest": "^2.1.9"
+  }
+}
