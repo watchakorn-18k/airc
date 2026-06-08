@@ -1,7 +1,7 @@
 class Airc < Formula
   desc "AI-powered terminal code reviewer with severity scoring, TUI dashboard, and CI/CD integration"
-  homepage "https://github.com/watchakorn-b/airc"
-  url "https://github.com/watchakorn-b/airc/archive/refs/tags/v1.1.0.tar.gz"
+  homepage "https://github.com/watchakorn-18k/airc"
+  url "https://github.com/watchakorn-18k/airc/archive/refs/tags/v1.1.0.tar.gz"
   sha256 "PLACEHOLDER_SHA256"
   license "MIT"
 

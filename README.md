@@ -35,7 +35,7 @@ Short, fast, to the point — like the review itself.
 ### macOS (Homebrew)
 
 ```bash
-brew tap watchakorn-b/airc
+brew tap watchakorn-18k/airc
 brew install airc
 ```
 
@@ -48,7 +48,7 @@ npm install -g airc
 ### From source
 
 ```bash
-git clone https://github.com/watchakorn-b/airc.git
+git clone https://github.com/watchakorn-18k/airc.git
 cd airc
 npm install
 npm run build
